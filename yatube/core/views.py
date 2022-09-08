@@ -12,5 +12,12 @@ def page_not_found(request, exception):
 
 def csrf_failure(request, reason=''):
     """Вывод кастомной страны ошибки 403."""
-    template = 'core/403csrf.html'
-    return render(request, template)
+    template = 'core/403.html'
+    return render(request, template, status=403)
+
+
+def internal_server_error(request, exception):
+    """Вывод кастомной страны ошибки 500."""
+    template = 'core/500.html'
+    context = {'path': request.path}
+    return render(request, template, context, status=500)
