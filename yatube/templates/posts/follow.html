@@ -1,0 +1,34 @@
+<!-- templates/posts/index.html -->
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% block content %}
+  <!-- класс py-5 создает отступы сверху и снизу блока -->
+  <div class="container py-5">
+    {% include 'posts/includes/switcher.html' %} 
+    <h1>Последние посты по подписке</h1>
+    {% for post in page_obj %}
+      <ul>
+        <li>
+          Автор: {{ post.author.get_full_name }}
+        </li>
+        <li>
+          Дата публикации: {{ post.pub_date|date:"d E Y" }}
+        </li>
+      </ul>
+      {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+        <img class="card-img my-2" src="{{ im.url }}">
+      {% endthumbnail %}      
+      <p>{{ post.text }}</p>
+      {% if post.group %}
+        <a href="{% url 'posts:group_posts' post.group.slug%}">все записи группы</a>
+      {% endif %}
+      <!-- под последним постом нет линии -->
+      {% if not forloop.last %}<hr>{% endif %}
+    {% endfor %}
+    {% include 'posts/includes/paginator.html' %}
+  </div>  
+    <!-- Использованы классы бустрапа: -->
+    <!-- border-top: создаёт тонкую линию сверху блока -->
+    <!-- text-center: выравнивает текстовые блоки внутри блока по центру -->
+    <!-- py-3: контент внутри размещается с отступом сверху и снизу -->         
+{% endblock %}
