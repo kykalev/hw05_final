@@ -1,5 +1,6 @@
 # Импортируем модуль forms, из него возьмём класс ModelForm
 from django import forms
+
 # Импортируем модель, чтобы связать с ней форму
 from .models import Comment, Post
 

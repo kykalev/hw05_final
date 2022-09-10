@@ -1,6 +1,7 @@
 from django.contrib import admin
+
 # Из модуля models импортируем модель Post
-from .models import Group, Post
+from .models import Comment, Follow, Group, Post
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -14,7 +15,16 @@ class PostAdmin(admin.ModelAdmin):
     list_editable = ('group',)
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'text', 'created', 'author', 'post',)
+    search_fields = ('text',)
+    list_filter = ('created',)
+    empty_value_display = '-пусто-'
+
+
 # При регистрации модели Post источником конфигурации для неё назначаем
 # класс PostAdmin
 admin.site.register(Post, PostAdmin)
 admin.site.register(Group)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Follow)

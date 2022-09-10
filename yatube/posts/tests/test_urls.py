@@ -1,8 +1,11 @@
+from http import HTTPStatus
+
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
-from django.test import TestCase, Client
-from http import HTTPStatus
-from posts.models import Post, Group
+from django.test import Client, TestCase
+from django.urls import reverse
+
+from ..models import Group, Post
 
 User = get_user_model()
 
@@ -38,10 +41,10 @@ class PostURLTests(TestCase):
     # Проверяем общедоступные страницы
     def test_public_pages(self):
         templates_url_names = (
-            '/',
-            f'/group/{self.group.slug}/',
-            f'/profile/{self.post.author}/',
-            f'/posts/{self.post.id}/'
+            reverse('posts:index'),
+            reverse('posts:group_posts', args=(self.group.slug,)),
+            reverse('posts:profile', args=(self.post.author,)),
+            reverse('posts:post_detail', args=(self.post.id,))
         )
         for url in templates_url_names:
             with self.subTest(url=url):

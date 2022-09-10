@@ -16,7 +16,7 @@ def csrf_failure(request, reason=''):
     return render(request, template, status=403)
 
 
-def internal_server_error(request, exception):
+def internal_server_error(request):
     """Вывод кастомной страны ошибки 500."""
     template = 'core/500.html'
     context = {'path': request.path}
